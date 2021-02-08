@@ -1,0 +1,43 @@
+<html>
+<head><title>detect objects in image</title></head>
+<body>
+<form id="theform" action="javascript:process();" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="submit" />
+</form>
+<textarea readonly class="event-log" rows="7" cols="40"></textarea>
+<br>
+<img id="theimg">
+</body>
+<script>
+const log = document.querySelector('.event-log');
+
+function process(){
+  var form = document.getElementById('theform');
+  var formData = new FormData(form);
+  var xhr = new XMLHttpRequest();
+  xhr.starttime = new Date().getTime();
+  xhr.addEventListener('loadstart', handleEvent);
+  xhr.addEventListener('load', handleEvent);
+  xhr.addEventListener('loadend', handleEvent);
+  xhr.addEventListener('progress', handleEvent);
+  xhr.addEventListener('error', handleEvent);
+  xhr.addEventListener('abort', handleEvent);
+
+  xhr.open('POST', '/upload', true);
+  xhr.send(formData);
+}
+
+function handleEvent(e) {
+    log.textContent = log.textContent + `${e.type}: ${e.loaded} bytes transferred\n`;
+    console.log(e);
+    if (e.type == 'loadend'){
+      var val = e.target.response;
+      val = JSON.parse(val);
+      var img = document.getElementById('theimg');
+      img.src = 'data:image/jpg;base64,'+val.img;
+      log.textContent = log.textContent + (new Date().getTime() - e.target.starttime)+'/'+val.millis+' ms';
+    }
+}
+</script>
+</html>
