@@ -29,6 +29,7 @@ A simple HTTP server to automate detection of objects over a network
     
     git clone https://github.com/mraiser/imageai-server.git imageai
     cd imageai
+    wget https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo-tiny.h5
     python3 server.py
     
     # Press Ctrl-c to exit
