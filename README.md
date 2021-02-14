@@ -13,7 +13,7 @@ A simple HTTP server to automate detection of objects over a network
     # Adapted from https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html
     # Assumes you are logged in as root in the /root directory
 
-    apt-get install git gfortran libhdf5-dev libc-ares-dev libeigen3-dev libatlas-base-dev libopenblas-dev libblas-dev openmpi-bin libopenmpi-dev liblapack-dev cython python3-pip libopenjp2-7 libilmbase-dev libavcodec-dev libavformat-dev libswscale-dev
+    apt-get install git gfortran libhdf5-dev libc-ares-dev libeigen3-dev libatlas-base-dev libopenblas-dev libblas-dev openmpi-bin libopenmpi-dev liblapack-dev cython python3-pip libopenjp2-7 libopenexr-dev libgtk-3-dev libilmbase-dev libavcodec-dev libavformat-dev libswscale-dev
     
     pip3 install keras_applications==1.0.8 --no-deps
     pip3 install keras_preprocessing==1.1.0 --no-deps
