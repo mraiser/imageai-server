@@ -11,7 +11,8 @@ A simple HTTP server to automate detection of objects over a network
 
 ## Step-by-step installation for Raspberry Pi 4
     # Adapted from https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html
-    
+    # Assumes you are logged in as root in the /root directory
+
     apt-get install gfortran libhdf5-dev libc-ares-dev libeigen3-dev libatlas-base-dev libopenblas-dev libblas-dev openmpi-bin libopenmpi-dev liblapack-dev cython python3-pip libopenjp2-7 libilmbase-dev libavcodec-dev libavformat-dev libswscale-dev
     
     pip3 install keras_applications==1.0.8 --no-deps
@@ -29,7 +30,14 @@ A simple HTTP server to automate detection of objects over a network
     git clone https://github.com/mraiser/imageai-server.git imageai
     cd imageai
     python3 server.py
-
+    
+    # Press Ctrl-c to exit
+    
+    # Install as service
+    cp detection /etc/init.d/detection
+    chmod 755 /etc/init.d/detection
+    update-rc.d detection defaults
+    service detection start
 
 ## Usage
 curl -F 'file=@/path/to/file/image.jpg' http://localhost:8080/upload

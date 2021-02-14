@@ -1,0 +1,60 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          detection
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     true
+# Short-Description: Start/stop detection server
+### END INIT INFO
+
+case $1 in
+    start)
+        if [ -f /root/imageai/pid ]; then
+            PID=$(cat /root/imageai/pid);
+            echo "Stopping detection ..."
+            kill $PID;
+            echo "Detection stopped ..."
+            rm /root/imageai/pid
+        fi
+
+        echo "Starting detection ..."
+        if [ ! -f /root/imageai/pid ]; then
+            cd /root/imageai/
+            nohup python3 server.py 2>> /dev/null >> /dev/null &
+            echo $! > /root/imageai/pid
+            echo "Detection started ..."
+        else
+            echo "Detection is already running ..."
+        fi
+    ;;
+    stop)
+        if [ -f /root/imageai/pid ]; then
+            PID=$(cat /root/imageai/pid);
+            echo "Stopping detection ..."
+            kill $PID;
+            echo "Detection stopped ..."
+            rm /root/imageai/pid
+        else
+            echo "Detection is not running ..."
+        fi
+    ;;
+    restart)
+        if [ -f /root/imageai/pid ]; then
+            PID=$(cat /root/imageai/pid);
+            echo "Stopping detection ...";
+            kill $PID;
+            echo "Detection stopped ...";
+            rm /root/imageai/pid
+
+            echo "Starting detection ..."
+            cd /root/imageai/
+            nohup python3 server.py 2>> /dev/null >> /dev/null &
+            echo $! > /root/imageai/pid
+            echo "Detection started ..."
+        else
+            echo "Detection is not running ..."
+        fi
+    ;;
+esac
