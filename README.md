@@ -30,15 +30,33 @@ A simple HTTP server to automate detection of objects over a network
     git clone https://github.com/mraiser/imageai-server.git imageai
     cd imageai
     wget https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/yolo-tiny.h5
+
+Option 1 - Launch manually
+
     python3 server.py
     
     # Press Ctrl-c to exit
-    
-    # Install as service
+
+Option 2 - Install as service on port 8080:
+
     cp detection /etc/init.d/detection
     chmod 755 /etc/init.d/detection
     update-rc.d detection defaults
     service detection start
+
+Option 3 - Install as load balanced 10 process service on port 80:
+
+    chmod a+x launch10.sh
+    cp detectionx10 /etc/init.d/detectionx10
+    chmod 755 /etc/init.d/detectionx10
+    update-rc.d detectionx10 defaults
+    service detectionx10 start
+    
+    #install nginx
+    apt-get install nginx
+    mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf_ORIGINAL
+    cp nginx.conf /etc/nginx/nginx.conf
+    service nginx restart
 
 ## Usage
 curl -F 'file=@/path/to/file/image.jpg' http://localhost:8080/upload

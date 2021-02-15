@@ -6,10 +6,11 @@ import cv2
 import numpy as np
 import base64
 import time
+import sys
+
 
 hostName = ""
 serverPort = 8080
-
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -65,6 +66,15 @@ class MyServer(BaseHTTPRequestHandler):
 
 # curl -F 'file=@/home/mraiser/Desktop/22.jpg' http://localhost:8080/upload
 if __name__ == "__main__":
+    numargs = len(sys.argv)
+    if (numargs>1):
+        hostName = sys.argv[1]
+        if (numargs>2):
+            serverPort = int(sys.argv[2])
+
+    print(hostName)
+    print(serverPort)
+
     detector = ObjectDetection()
 
     model_path = "./yolo-tiny.h5"
@@ -83,4 +93,5 @@ if __name__ == "__main__":
 
     webServer.server_close()
     print("Server stopped.")
+
 
